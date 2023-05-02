@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Edit</title>
+    <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: "Lato", sans-serif;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 160px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            padding-top: 16px;
+        }
+
+        .sidebar a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #818181;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+
+        .main {
+            margin-left: 160px;
+            /* Same as the width of the sidenav */
+            padding: 0px 10px;
+        }
+
+        @media screen and (max-height: 450px) {
+            .sidebar {
+                padding-top: 15px;
+            }
+
+            .sidebar a {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <a href="/home"><i class="fa fa-fw fa-home"></i> Home</a>
+    </div>
+
+    <div class="main">
+        <ul>
+            <form action="/update" method="POST" enctype="multipart/form-data">
+                <% edit.forEach(function(inventory){ %>
+                    name*:</br>
+                    <input type="text" name="name" required value=<%=inventory.name %>></p>
+                    type:</br>
+                    <input type="text" name="type" value=<%=inventory.type %>></p>
+                    quantity:</br>
+                    <input type="text" name="quantity" value=<%=inventory.quantity %>></p>
+                    street:</br>
+                    <input type="text" name="street" value=<%=inventory.inventory_address.street %>></p>
+                    building:</br>
+                    <input type="text" name="building" value=<%=inventory.inventory_address.building %>></p>
+                    country:</br>
+                    <input type="text" name="country" value=<%=inventory.inventory_address.country %>></p>
+                    zipcode:</br>
+                    <input type="text" name="zipcode" value=<%=inventory.inventory_address.zipcode %>></p>
+                    GPS Latitude:</br>
+                    <input type="text" name="Latitude" value=<%=inventory.inventory_address.coord.Latitude %>></p>
+                    GPS Longitude:</br>
+                    <input type="text" name="Longitude" value=<%=inventory.inventory_address.coord.Longitude %>></p>
+                    update new photo:<input type="file" name="filetoupload" id="filetoupload"><button
+                        id="btn-file-reset-id" type="button">Reset file</button></p>
+                    <img id="myImg" src="data:image/jpg;base64,<%=inventory.photo%>" style="width:30%;max-width:300;">
+                    </p>
+                    <input type="hidden" name="_id" value=<%=inventory._id%>>
+                    <input type="hidden" name="manager" value=<%=inventory.manager%>>
+                    <input type="submit" value="update"></p>
+                    <input type="submit" formaction="/delete" formmethod="POST" value="delete"></p>
+                    <%}); %>
+            </form>
+        </ul>
+        <script>
+            $(document).ready(function () {
+                $('#btn-file-reset-id').on('click', function () {
+                    $('#filetoupload').val('');
+                });
+            });
+        </script>
+    </div>
+
+</body>
+
+</html>

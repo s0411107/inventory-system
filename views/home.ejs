@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Home</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .header {
+      padding: 60px;
+      text-align: center;
+      background: #1abc9c;
+      color: white;
+    }
+
+    .header h1 {
+      font-size: 40px;
+    }
+
+    .navbar {
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    .navbar a {
+      float: left;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 20px;
+      text-decoration: none;
+    }
+
+    .navbar a.right {
+      float: right;
+    }
+
+    .navbar a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    #myInput {
+      background-image: url('https://www.w3schools.com/css/searchicon.png');
+      background-position: 10px 12px;
+      background-repeat: no-repeat;
+      width: 100%;
+      font-size: 16px;
+      padding: 12px 20px 12px 40px;
+      border: 1px solid #ddd;
+      margin-bottom: 12px;
+    }
+
+    #myUL {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #myUL li a {
+      border: 1px solid #ddd;
+      margin-top: -1px;
+      background-color: #f6f6f6;
+      padding: 12px;
+      text-decoration: none;
+      font-size: 18px;
+      color: black;
+      display: block
+    }
+
+    #myUL li a:hover:not(.header) {
+      background-color: #eee;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <h1>Wellcome to inventory system</h1>
+    <p>Made By</p>
+    <p>ChengTszChun 12801760</p>
+  </div>
+  <div class="navbar">
+    <a href="/create">Create new inventory</a>
+    <a href="/logout" class="right">Logout</a>
+  </div>
+  <h2>Search for inventory name<h2>
+      <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for inventory names.."
+        title="Type in a name">
+      <ul id="myUL" style="height:300px;display:block;overflow:scroll">
+        <% home.forEach(function(inventory){ %>
+          <li><a href="/details?_id=<%= inventory._id %>">
+              <%= inventory.name %>
+            </a></li>
+          <%}); %>
+      </ul>
+      <script>
+        function myFunction() {
+          var input, filter, ul, li, a, i, txtValue;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          ul = document.getElementById("myUL");
+          li = ul.getElementsByTagName("li");
+          for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              li[i].style.display = "";
+            } else {
+              li[i].style.display = "none";
+            }
+          }
+        }
+      </script>
+</body>
+
+</html>

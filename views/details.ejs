@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Details</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    body {
+      font-family: "Lato", sans-serif;
+    }
+
+
+    #myImg {
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #myImg:hover {
+      opacity: 0.7;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      padding-top: 100px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .modal-content {
+      margin: auto;
+      display: block;
+      width: 80%;
+      max-width: 700px;
+    }
+
+    #caption {
+      margin: auto;
+      display: block;
+      width: 80%;
+      max-width: 700px;
+      text-align: center;
+      color: #ccc;
+      padding: 10px 0;
+      height: 150px;
+    }
+
+    .modal-content,
+    #caption {
+      -webkit-animation-name: zoom;
+      -webkit-animation-duration: 0.6s;
+      animation-name: zoom;
+      animation-duration: 0.6s;
+    }
+
+    @-webkit-keyframes zoom {
+      from {
+        -webkit-transform: scale(0)
+      }
+
+      to {
+        -webkit-transform: scale(1)
+      }
+    }
+
+    @keyframes zoom {
+      from {
+        transform: scale(0)
+      }
+
+      to {
+        transform: scale(1)
+      }
+    }
+
+    .close {
+
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #bbb;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    @media only screen and (max-width: 700px) {
+      .modal-content {
+        width: 100%;
+      }
+    }
+
+    .sidebar {
+      height: 100%;
+      width: 160px;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #111;
+      overflow-x: hidden;
+      padding-top: 16px;
+    }
+
+    .sidebar a {
+      padding: 6px 8px 6px 16px;
+      text-decoration: none;
+      font-size: 20px;
+      color: #818181;
+      display: block;
+    }
+
+    .sidebar a:hover {
+      color: #f1f1f1;
+    }
+
+    .main {
+      margin-left: 160px;
+      /* Same as the width of the sidenav */
+      padding: 0px 10px;
+    }
+
+    @media screen and (max-height: 450px) {
+      .sidebar {
+        padding-top: 15px;
+      }
+
+      .sidebar a {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <body>
+    <% details.forEach(function(inventory){ %>
+      <img id="myImg" src="data:image/jpg;base64,<%=inventory.photo%>"
+        style="width:100%;max-width:300px; margin-left: 40%;">
+      <%}); %>
+        <div id="myModal" class="modal">
+          <span class="close">&times;</span>
+          <img class="modal-content" id="img01">
+          <div id="caption"></div>
+        </div>
+
+        <script>
+          var modal = document.getElementById("myModal");
+
+          var img = document.getElementById("myImg");
+          var modalImg = document.getElementById("img01");
+          var captionText = document.getElementById("caption");
+          img.onclick = function () {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            captionText.innerHTML = this.alt;
+          }
+
+          var span = document.getElementsByClassName("close")[0];
+
+          span.onclick = function () {
+            modal.style.display = "none";
+          }
+        </script>
+        <div class="sidebar">
+          <a href="/home"><i class="fa fa-fw fa-home"></i> Home</a>
+          <% details.forEach(function(inventory){ %>
+            <a
+              href="/map?lat=<%= inventory.inventory_address.coord.Latitude %>&lou=<%= inventory.inventory_address.coord.Longitude %>"><i
+                class="fa fa-map-o" aria-hidden="true"></i> Map</a>
+            <a href="/edit?_id=<%= inventory._id %>"><i class="fa fa-fw fa-wrench"></i> Edit</a>
+            <%}); %>
+        </div>
+
+        <div class="main">
+          <% details.forEach(function(inventory){ %>
+            <h2>
+              Name:<%= inventory.name %></a></p>
+            </h2>
+            Type:<%= inventory.type %></a></p>
+              Quantity:<%= inventory.quantity %></a></p>
+                Street:<%= inventory.inventory_address.street %></a></p>
+                  Building:<%= inventory.inventory_address.building %></a></p>
+                    Country:<%= inventory.inventory_address.country %></a></p>
+                      Zipcode:<%= inventory.inventory_address.zipcode %></a></p>
+                        GPS:<%= inventory.inventory_address.coord.Latitude %>,<%=
+                            inventory.inventory_address.coord.Longitude %></a></p>
+                            Manager:<%= inventory.manager %></a></p>
+                              <%}); %>
+        </div>
+
+        <script>
+          var modal = document.getElementById("myModal");
+
+          var img = document.getElementById("myImg");
+          var modalImg = document.getElementById("img01");
+          var captionText = document.getElementById("caption");
+          img.onclick = function () {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            captionText.innerHTML = this.alt;
+          }
+
+          var span = document.getElementsByClassName("close")[0];
+
+          span.onclick = function () {
+            modal.style.display = "none";
+          }
+        </script>
+
+  </body>
+
+</html>
